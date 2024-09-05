@@ -7,6 +7,7 @@ const userSchema = new Schema({
   email: { type: String, unique: true, required: true },
   profile_picture: { type: String },
   role: { type: String, enum: ['Admin', 'User'], default: 'User' },
+  phoneNumber: { type: String, maxlength: 20 }, // Thêm trường phoneNumber
   created_quizzes: [{ type: Schema.Types.ObjectId, ref: 'Quiz' }]
 }, {
   timestamps: true

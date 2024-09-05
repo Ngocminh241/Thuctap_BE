@@ -2,9 +2,8 @@ const Choice = require("../models/Choice");
 const ChoiceService = require("../services/ChoiceService");
 
 class ChoiceController {
-    postCreateChoice = async (req, res) => {
+    createChoice = async (req, res) => {
         const { question_id, content, is_correct } = req.body;
-
         try {
             const data = await new ChoiceService().createChoice(question_id, content, is_correct);
             res.json({
@@ -15,6 +14,20 @@ class ChoiceController {
         } catch (error) {
             console.log(error);
             res.status(500).json({ status: 500, message: "Có lỗi xảy ra" });
+        }
+    }
+
+    getAllChoices = async (req, res) => {
+        try {
+            const data = await new ChoiceService().getAllChoices();
+            res.json({
+                status: data.status,
+                message: data.message,
+                data: data.data
+            });
+        } catch (error) {
+            console.error('Error fetching choices', error);
+            res.status(500).json({ error: 'Server error' });
         }
     }
 

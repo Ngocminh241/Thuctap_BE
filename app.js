@@ -22,9 +22,14 @@ app.engine('hbs', exphbs.engine({
   defaultLayout: 'layout',
   layoutsDir: path.join(__dirname, 'views/layouts'),
   partialsDir: path.join(__dirname, 'views/partials'),
+  runtimeOptions: {
+    allowProtoPropertiesByDefault: true,
+    allowProtoMethodsByDefault: true
+  }
 }));
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'hbs');
+
 
 app.use(logger('dev'));
 app.use(express.json());
@@ -37,7 +42,7 @@ app.use('/', indexRouter);
 //
 // Cấu hình session middleware
 app.use(session({
-  secret: 'CINEMA',
+  secret: 'KIDLEARN',
   resave: false,
   saveUninitialized: false,
   cookie: { secure: false } // Đặt secure: true nếu bạn sử dụng HTTPS

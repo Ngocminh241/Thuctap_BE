@@ -72,6 +72,16 @@ class QuizService {
             return { status: 500, message: "Error incrementing play count" };
         }
     }
+    
+    getAllQuizzes = async () => {
+        try {
+            const quizzes = await Quiz.find().populate('questions').populate('created_by').populate('difficulty_level').populate('question_pack');
+            return { status: 200, message: "Quizzes retrieved successfully", data: quizzes };
+        } catch (error) {
+            console.error(error);
+            return { status: 500, message: "Error retrieving quizzes" };
+        }
+    }
 }
 
 module.exports = QuizService;

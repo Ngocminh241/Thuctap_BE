@@ -17,6 +17,16 @@ class QuestionPackService {
         }
     }
 
+    getAllQuestionPacks = async () => {
+        try {
+            const packs = await QuestionPack.find().populate('questions').populate('level_id');
+            return { status: 200, message: "Question packs retrieved successfully", data: packs };
+        } catch (error) {
+            console.error(error);
+            return { status: 500, message: "Error retrieving question packs" };
+        }
+    }    
+
     getPackByID = async (id) => {
         try {
             const pack = await QuestionPack.findById(id).populate('questions').populate('level_id');

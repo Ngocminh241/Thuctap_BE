@@ -47,6 +47,19 @@ class ResultController {
             res.status(500).json({ status: 500, message: "Có lỗi xảy ra" });
         }
     }
+    getAllResults = async (req, res) => {
+        try {
+            const data = await new ResultService().getAllResults();
+            res.json({
+                status: data.status,
+                message: data.message,
+                data: data.data
+            });
+        } catch (error) {
+            console.log(error);
+            res.status(500).json({ status: 500, message: "Có lỗi xảy ra" });
+        }
+    }
 }
 
 module.exports = ResultController;

@@ -32,6 +32,20 @@ class QuestionPackController {
             res.status(500).json({ error: 'Server error' });
         }
     }
+    getAllQuestionPacks = async (req, res) => {
+        try {
+            const data = await new QuestionPackService().getAllQuestionPacks();
+            res.json({
+                status: data.status,
+                message: data.message,
+                data: data.data
+            });
+        } catch (error) {
+            console.log(error);
+            res.status(500).json({ status: 500, message: "Có lỗi xảy ra" });
+        }
+    }
+    
 
     deletePack = async (req, res) => {
         const { id } = req.params;

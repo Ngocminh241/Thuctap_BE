@@ -22,18 +22,14 @@ class UserController {
     postRegister = async (req, res) => {
         try {
             const file = req.file;
-            const username = req.body.username;
-            const email = req.body.email;
-            const password = req.body.password;
-            const phone = req.body.phoneNumber;
-            const roles = req.body.roles;
+            const { username, email, password, phoneNumber, roles } = req.body;
             let urlsImage = "";
 
             if (file) {
                 urlsImage = `${req.protocol}://${req.get("host")}/uploads/${file.filename}`;
             }
 
-            const data = await new UserService().register(file, username, email, password, phone, roles, urlsImage);
+            const data = await new UserService().register(file, username, email, password, phoneNumber, roles, urlsImage);
             res.json({
                 status: data.status,
                 message: data.message,

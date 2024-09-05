@@ -1,5 +1,4 @@
-const DifficultyLevel = require("../models/DifficultyLevel");
-const DifficultyLevelService = require("../services/DifficultyLevelService");
+const DifficultyLevelService = require('../services/DifficultyLevelService');
 
 class DifficultyLevelController {
     postCreateLevel = async (req, res) => {

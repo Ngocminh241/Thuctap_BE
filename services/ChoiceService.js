@@ -1,4 +1,4 @@
-const Choice = require("../models/Choice");
+const Choice = require('../models/Choice');
 
 class ChoiceService {
     createChoice = async (question_id, content, is_correct) => {
@@ -13,6 +13,16 @@ class ChoiceService {
         } catch (error) {
             console.error(error);
             return { status: 500, message: "Error creating choice" };
+        }
+    }
+
+    getAllChoices = async () => {
+        try {
+            const choices = await Choice.find().populate('question_id');
+            return { status: 200, message: 'Choices retrieved successfully', data: choices };
+        } catch (error) {
+            console.error(error);
+            return { status: 500, message: "Error retrieving choices" };
         }
     }
 

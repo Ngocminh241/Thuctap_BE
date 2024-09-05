@@ -42,6 +42,15 @@ class ResultService {
             return { status: 500, message: "Error deleting result" };
         }
     }
+    getAllResults = async () => {
+        try {
+            const results = await Result.find().populate('user_id').populate('quiz_id').populate('answers.question_id').populate('answers.user_choices');
+            return { status: 200, message: "Results retrieved successfully", data: results };
+        } catch (error) {
+            console.error(error);
+            return { status: 500, message: "Error retrieving results" };
+        }
+    }
 }
 
 module.exports = ResultService;

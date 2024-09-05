@@ -35,12 +35,12 @@ class UserService {
     }
 
     // Đăng ký người dùng
-    register = async (file, username, email, password, phone, roles, urlsImage) => {
+    register = async (file, username, email, password, phoneNumber, roles, urlsImage) => {
         try {
             if (!file) {
                 urlsImage = "default_image_url"; // Thay thế bằng đường dẫn ảnh mặc định
             }
-            const existingUser = await User.findOne({ phoneNumber: phone });
+            const existingUser = await User.findOne({ phoneNumber: phoneNumber });
             if (existingUser) {
                 return {
                     status: -2,
@@ -53,8 +53,9 @@ class UserService {
                 username: username,
                 email: email,
                 password: password,
-                phoneNumber: phone,
-                profile_picture: urlsImage
+                phoneNumber: phoneNumber,
+                profile_picture: urlsImage,
+                role: roles
             });
             const result = await newUser.save();
             return {

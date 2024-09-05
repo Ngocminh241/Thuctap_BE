@@ -1,5 +1,5 @@
-const AdminLog = require("../models/AdminLog");
-const AdminLogService = require("../services/AdminLogService");
+const AdminLog = require('../models/AdminLog');
+const AdminLogService = require('../services/AdminLogService');
 
 class AdminLogController {
     postCreateLog = async (req, res) => {

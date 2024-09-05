@@ -18,6 +18,20 @@ class QuizController {
         }
     }
 
+    getAllQuizzes = async (req, res) => {
+        try {
+            const data = await new QuizService().getAllQuizzes();
+            res.json({
+                status: data.status,
+                message: data.message,
+                data: data.data
+            });
+        } catch (error) {
+            console.log(error);
+            res.status(500).json({ status: 500, message: "Có lỗi xảy ra" });
+        }
+    }
+
     getQuizByID = async (req, res) => {
         const { id } = req.params;
         try {
