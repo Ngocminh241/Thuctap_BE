@@ -6,29 +6,39 @@ class UserController {
         const { email, password } = req.body;
         try {
             const data = await new UserService().login(email, password);
-            res.json({
-                status: data.status,
-                message: data.message,
-                data: data.data,
-                token: data.token,
-                refreshToken: data.refreshToken
-            });
+            if (data.status === 200) {
+                res.json({
+                    status: data.status,
+                    message: data.message,
+                    data: data.data,
+                    token: data.token,
+                    refreshToken: data.refreshToken
+                });
+            } else {
+                res.status(data.status).json({
+                    status: data.status,
+                    message: data.message,
+                    data: data.data
+                });
+            }
         } catch (error) {
-            console.log(error);
+            console.error('Error during login:', error);
             res.status(500).json({ status: 500, message: "Có lỗi xảy ra" });
         }
     }
+    
+    
 
     postRegister = async (req, res) => {
         try {
             const file = req.file;
             const { username, email, password, phoneNumber, roles } = req.body;
             let urlsImage = "";
-
+    
             if (file) {
                 urlsImage = `${req.protocol}://${req.get("host")}/uploads/${file.filename}`;
             }
-
+    
             const data = await new UserService().register(file, username, email, password, phoneNumber, roles, urlsImage);
             res.json({
                 status: data.status,
@@ -36,10 +46,11 @@ class UserController {
                 data: data.data
             });
         } catch (error) {
-            console.log(error);
+            console.error('Error during registration:', error);
             res.status(500).json({ status: 500, message: "Có lỗi xảy ra" });
         }
     }
+    
 
     getAllUser = async (req, res) => {
         try {
@@ -103,11 +114,11 @@ class UserController {
     changePassword = async (req, res) => {
         const { id } = req.params;
         const { newPassword } = req.body;
-
+    
         if (!id || !newPassword) {
             return res.status(400).json({ message: 'Invalid request, missing id or newPassword' });
         }
-
+    
         try {
             const result = await new UserService().changePassword(id, newPassword);
             res.status(result.status).json(result);
@@ -116,6 +127,7 @@ class UserController {
             res.status(500).json({ status: 500, message: 'Internal server error' });
         }
     }
+    
 
     updateUserInfo = async (req, res) => {
         const userId = req.params.id;

@@ -1,22 +1,37 @@
 const User = require("../models/User");
 const JWT = require('jsonwebtoken');
+const bcrypt = require('bcrypt');
 const SECRETKEY = "KIDLEARN";
 
 class UserService {
-    // Đăng nhập người dùng
-    login = async (email, password) => {
+       // Đăng nhập người dùng
+       login = async (email, password) => {
         try {
-            const user = await User.findOne({ email, password });
+            // Tìm người dùng theo email
+            const user = await User.findOne({ email });
+    
             if (user) {
-                const token = JWT.sign({ id: user._id }, SECRETKEY, { expiresIn: '1h' });
-                const refreshToken = JWT.sign({ id: user._id }, SECRETKEY, { expiresIn: '1d' });
-                return {
-                    status: 200,
-                    message: "Đăng nhập thành công",
-                    data: user,
-                    token: token,
-                    refreshToken: refreshToken
-                };
+                // So sánh mật khẩu đã mã hóa
+                const match = await bcrypt.compare(password, user.password);
+    
+                if (match) {
+                    const token = JWT.sign({ id: user._id }, SECRETKEY, { expiresIn: '1h' });
+                    const refreshToken = JWT.sign({ id: user._id }, SECRETKEY, { expiresIn: '1d' });
+    
+                    return {
+                        status: 200,
+                        message: "Đăng nhập thành công",
+                        data: user,
+                        token: token,
+                        refreshToken: refreshToken
+                    };
+                } else {
+                    return {
+                        status: 400,
+                        message: "Lỗi, đăng nhập không thành công",
+                        data: []
+                    };
+                }
             } else {
                 return {
                     status: 400,
@@ -33,6 +48,9 @@ class UserService {
             };
         }
     }
+    
+    
+    
 
     // Đăng ký người dùng
     register = async (file, username, email, password, phoneNumber, roles, urlsImage) => {
@@ -48,6 +66,8 @@ class UserService {
                     data: []
                 };
             }
+            const salt = await bcrypt.genSalt(10);
+            const hashedPassword = await bcrypt.hash(password, salt);
 
             const newUser = new User({
                 username: username,
@@ -224,6 +244,25 @@ class UserService {
                 status: 500,
                 message: 'Internal server error',
                 data: null
+            };
+        }
+    }
+
+        // Lấy tất cả người dùng
+    getAllUsers = async () => {
+        try {
+            const users = await User.find();
+            return {
+                status: 200,
+                message: "Danh sách tất cả người dùng",
+                data: users
+            };
+        } catch (error) {
+            console.log(error);
+            return {
+                status: 500,
+                message: "Có lỗi xảy ra",
+                data: []
             };
         }
     }
