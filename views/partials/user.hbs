@@ -27,7 +27,7 @@
                     <th>ID</th>
                     <th>Avatar</th>
                     <th>Tên</th>
-                    <th>Giới tính</th>
+                    <th>Vai trò</th>
                     <th>Email</th>
                     <th>Số điện thoại</th>
                     <th>Hành động</th>
@@ -35,12 +35,12 @@
             </thead>
             <div id="preloader"></div>
             <tbody>
-                {{#each users}}
+                
                 <tr>
                     <td>{{this._id}}</td>
                     <td><img src="{{this.profile_picture}}" alt="Avatar" class="avatar-img"></td>
                     <td>{{this.username}}</td>
-                    <td>{{this.gender}}</td>
+                    <td>{{this.role}}</td>
                     <td>{{this.email}}</td>
                     <td>{{this.phoneNumber}}</td>
                     <td>
@@ -48,7 +48,7 @@
                         <button onclick="deleteUser('{{this._id}}')" type="button" class="btn btn-danger">Xóa</button>
                     </td>
                 </tr>
-                {{/each}}
+                
             </tbody>
         </table>
         <div class="page">

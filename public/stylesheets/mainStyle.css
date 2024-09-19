@@ -1,0 +1,82 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+html,
+body {
+    width: 100%;
+    height: 100%;
+}
+
+.container-fluid {
+    width: 100%;
+    height: 90vh;
+    padding: 0;
+}
+.container-fluid aside i {
+    font-size: 20px;
+    margin: 10px;
+}
+
+/* header */
+header {
+    width: 100%;
+    height: 10vh;
+    background-color: white;
+    box-shadow: 0px 5px 20px #00000033;
+    justify-content: space-between;
+}
+header .row {
+    width: 20%;
+    height: 100%;
+    background-color: #404E67;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+header .avatar-admin {
+    width: 21%;
+    height: 100%;
+    align-items: center;
+    justify-content: center;
+}
+header .avatar {
+    width: 50px;
+    height: 50px;
+    box-shadow: 0px 5px 20px #00000033;
+    margin-right: 10px;
+}
+header .avatar img {
+    width: 100%;
+    height: 100%;
+    border-radius: 5px;
+    object-fit: cover;
+}
+/* aside */
+aside {
+    width: 20%;
+    height: 100%;
+    padding-top: 5%;
+    background-color: #404E67;
+    margin-left: -1%;
+}
+
+.list-group-item {
+    background-color: transparent;
+    color: white;
+}
+
+/* artivle */
+article {
+    width: 80%;
+}
+
+.active-item {
+    border-left: 6px solid #FE8A7D;
+}
+
+/* .list-group>button:focus {
+    border-left: 6px solid #FE8A7D;
+}    */

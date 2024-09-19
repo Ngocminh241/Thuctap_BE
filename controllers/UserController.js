@@ -26,19 +26,17 @@ class UserController {
             res.status(500).json({ status: 500, message: "Có lỗi xảy ra" });
         }
     }
-    
-    
 
     postRegister = async (req, res) => {
         try {
             const file = req.file;
             const { username, email, password, phoneNumber, roles } = req.body;
-            let urlsImage = "";
-    
+            let urlsImage = null;  // Đổi từ "" thành null
+
             if (file) {
                 urlsImage = `${req.protocol}://${req.get("host")}/uploads/${file.filename}`;
             }
-    
+
             const data = await new UserService().register(file, username, email, password, phoneNumber, roles, urlsImage);
             res.json({
                 status: data.status,
@@ -50,7 +48,6 @@ class UserController {
             res.status(500).json({ status: 500, message: "Có lỗi xảy ra" });
         }
     }
-    
 
     getAllUser = async (req, res) => {
         try {
@@ -114,11 +111,11 @@ class UserController {
     changePassword = async (req, res) => {
         const { id } = req.params;
         const { newPassword } = req.body;
-    
+
         if (!id || !newPassword) {
             return res.status(400).json({ message: 'Invalid request, missing id or newPassword' });
         }
-    
+
         try {
             const result = await new UserService().changePassword(id, newPassword);
             res.status(result.status).json(result);
@@ -127,20 +124,31 @@ class UserController {
             res.status(500).json({ status: 500, message: 'Internal server error' });
         }
     }
-    
 
     updateUserInfo = async (req, res) => {
         const userId = req.params.id;
-        const { username, phoneNumber } = req.body;
-
+        const { username, phoneNumber, newPassword } = req.body;
+    
+        if (!userId) {
+            return res.status(400).json({ message: 'Thiếu thông tin cần thiết' });
+        }
+    
         try {
-            const result = await new UserService().updateUserInfo(userId, username, phoneNumber);
+            // Nếu không có mật khẩu mới, chỉ cập nhật thông tin cơ bản
+            if (!newPassword) {
+                const result = await new UserService().updateUserInfo(userId, username, phoneNumber);
+                return res.status(result.status).json(result);
+            }
+    
+            // Nếu có mật khẩu mới, cần cập nhật cả mật khẩu
+            const result = await new UserService().updateUserInfoAndPassword(userId, username, phoneNumber, newPassword);
             res.status(result.status).json(result);
         } catch (error) {
             console.error('Error:', error);
             res.status(500).json({ status: 500, message: 'Internal server error' });
         }
     }
+    
 
     updateAvatar = async (req, res) => {
         try {
@@ -149,10 +157,11 @@ class UserController {
             let urlsImage = null;
 
             if (file) {
-                if (req.get("host") === "10.0.2.2:3000") {
+                const host = req.get("host");
+                if (host === "10.0.2.2:3000") {
                     urlsImage = `${req.protocol}://localhost:3000/uploads/${file.filename}`;
                 } else {
-                    urlsImage = `${req.protocol}://${req.get("host")}/uploads/${file.filename}`;
+                    urlsImage = `${req.protocol}://${host}/uploads/${file.filename}`;
                 }
             }
 
@@ -163,6 +172,8 @@ class UserController {
             res.status(500).json({ status: 500, message: "Đã xảy ra lỗi khi cập nhật avatar của người dùng" });
         }
     }
+
+    
 }
 
 module.exports = UserController;

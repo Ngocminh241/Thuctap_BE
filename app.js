@@ -1,8 +1,7 @@
 var createError = require('http-errors');
 const express = require('express');
 const multer = require('multer');
-const upload = multer({ dest: 'uploads/' });
-var path = require('path');
+const path = require('path');
 var cookieParser = require('cookie-parser');
 var logger = require('morgan');
 const exphbs = require('express-handlebars');
@@ -10,12 +9,14 @@ const session = require('express-session');
 const bodyParser = require('body-parser');
 
 var indexRouter = require('./routes/index');
-// Import router người dùng
-var userRouter = require('./routes/user/index'); 
+var userRouter = require('./routes/user/index');
 
 const database = require('./config/db');
 
 const app = express();
+
+// Cấu hình multer
+const upload = multer({ dest: 'public/uploads/' }); // Thay đổi đường dẫn nếu cần
 
 // view engine setup
 app.engine('hbs', exphbs.engine({
@@ -38,55 +39,83 @@ app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
 app.use('/', indexRouter);
+app.use('/api', userRouter);
 
-// Sử dụng router người dùng với đường dẫn bắt đầu bằng /api
-app.use('/api', userRouter); 
-
-// Cấu hình session middleware
 app.use(session({
   secret: 'KIDLEARN',
   resave: false,
   saveUninitialized: false,
-  cookie: { secure: false } // Đặt secure: true nếu bạn sử dụng HTTPS
+  cookie: { secure: false }
 }));
 
-// Cấu hình body-parser
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 
-// Đường dẫn upload avatar
-app.post('/upload-avatar', upload.single('image'), (req, res) => {
-  if (!req.file) {
-    return res.status(400).send('No file uploaded.');
-  }
-  // Xử lý tệp tải lên ở đây
-  res.send('Tệp đã được tải lên thành công');
-});
-
-// Kết nối cơ sở dữ liệu
 database.connect();
 
-// catch 404 and forward to error handler
 app.use(function(req, res, next) {
   next(createError(404));
 });
 
-// error handler
 app.use(function(err, req, res, next) {
-  // set locals, only providing error in development
   res.locals.message = err.message;
   res.locals.error = req.app.get('env') === 'development' ? err : {};
 
-  // render the error page
   res.status(err.status || 500);
   res.render('error');
 });
 
-// Định nghĩa endpoint
+// Đường dẫn upload avatar
+app.post('/api/v1/user/register', upload.single('profile_picture'), async (req, res) => {
+  try {
+    if (!req.file) {
+      return res.status(400).send('No file uploaded.');
+    }
+
+    const { username, email, password, phoneNumber } = req.body;
+
+    if (!username || !email || !password || !phoneNumber) {
+      return res.status(400).send('Thiếu dữ liệu người dùng.');
+    }
+
+    const imageUrl = req.file.path;
+
+    res.json({ status: 200, message: 'Người dùng đã được đăng ký thành công', imageUrl });
+  } catch (error) {
+    console.error('Server error:', error);
+    res.status(500).send('Đã xảy ra lỗi trên server');
+  }
+});
+
 app.post('/api/v1/user/login', (req, res) => {
   const { email, password } = req.body;
   // Xử lý đăng nhập ở đây
   res.json({ status: 200, message: 'Đăng nhập thành công!' });
+});
+
+app.put('/api/v1/user/update-info/:id', async (req, res) => {
+  try {
+      const userId = req.params.userId;
+      const updateData = req.body;
+
+      // Cập nhật người dùng trong cơ sở dữ liệu
+      const updatedUser = await User.findByIdAndUpdate(userId, updateData, { new: true });
+
+      if (!updatedUser) {
+          return res.status(404).json({ status: 404, message: 'Người dùng không tìm thấy' });
+      }
+
+      res.status(200).json({ status: 200, data: updatedUser });
+  } catch (error) {
+      res.status(500).json({ status: 500, message: error.message });
+  }
+});
+
+// Ví dụ với multer
+app.put('/api/v1/user/update-info/:id', upload.none(), async (req, res) => {
+  const role = Number(req.body.role); // Ép kiểu lại về number ở phía server
+  console.log('Role received on server:', role); // Kiểm tra giá trị role nhận được
+  // Tiếp tục cập nhật dữ liệu
 });
 
 

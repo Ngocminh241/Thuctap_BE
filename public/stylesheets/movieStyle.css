@@ -1,0 +1,149 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+main {
+    width: 100%;
+    height: 100%;
+    padding: 20px;
+    position: relative;
+}
+
+main>.nav {
+    border-top: 1px solid black;
+    border-bottom: 1px solid black;
+    padding: 10px 0;
+}
+
+main>.nav>.bgr {
+    width: 100%;
+    height: 100%;
+    padding: 20px 40px;
+    background-color: #e6e6e6;
+}
+
+main>.nav>.bgr>.input-search {
+    width: 250px;
+    height: 40px;
+    border-radius: 20px;
+    background-color: white;
+    align-items: center;
+    position: relative;
+    box-shadow: 0px 5px 25px #0000001a;
+}
+
+main>.nav>.bgr>.input-search>input {
+    width: 100%;
+    height: 100%;
+    border: none;
+    border-radius: 20px;
+    background-color: white;
+    padding-left: 40px;
+    padding-right: 10px;
+}
+
+main>.nav>.bgr>.input-search>input:focus {
+    outline: none;
+}
+
+main>.nav>.bgr>.input-search>i {
+    position: absolute;
+    left: 0;
+    padding: 15px;
+}
+
+i:hover {
+    cursor: pointer;
+}
+
+.bgr>button {
+    padding: 0 15px;
+    border: none;
+    border-radius: 20px;
+    background-color: white;
+    box-shadow: 0px 5px 25px #0000001a;
+}
+.bgr>button:focus {
+    outline: none;
+}
+.bgr>button>i {
+    margin-right: 10px;
+}
+
+#preloader {
+    background: rgba(0, 0, 0, 0) url('https://2.bp.blogspot.com/-mi47tJm0jZ8/VjtDUEcPRxI/AAAAAAAAiEA/lbnR-JT87GQ/s1600/preloader%2B%25281%2529.gif') no-repeat center center;
+    background-size: 10%;
+    width: 67%;
+    height: 70vh;
+    position: fixed;
+    z-index: 100;
+    border: none;
+}
+
+.page {
+    width: 95%;
+    border: none;
+    justify-content: center;
+    align-items: center;
+    display: flex;
+    position: absolute;
+    bottom: 0;
+    padding: 10px;
+}
+.page>i {
+    font-size: 25px;
+}
+.page>input {
+    width: 5%;
+    height: 26px;
+    margin: 0 10px;
+    padding: 5px;
+    border-radius: 1%;
+    text-align: center;
+    font-size: 16px;
+    font-weight: bold;
+}
+.btn-group {
+    border: none;
+    margin: 0;
+    padding: 0;
+}
+
+.active {
+    background-color: blue;
+    /* hoặc bất kỳ kiểu thiết lập trạng thái active nào khác */
+    color: white;
+}
+.bgr-dialog {
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    align-items: center;
+    justify-content: center;
+    display: none;
+}
+.close-dialog {
+    position: absolute;
+    background-color: rgba(0, 255, 255, 0);
+    width: 100%;
+    height: 100%;
+}
+.dialog-content {
+    width: 40%;
+    height: auto;
+    background-color: white;
+    display: flex;
+    align-items: center;
+    border-radius: 10px;
+    padding: 20px;
+    margin-left: 100px;
+    border: none;
+    z-index: 99;
+}

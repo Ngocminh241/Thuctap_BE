@@ -7,7 +7,7 @@ const userSchema = new Schema({
   password: { type: String, maxlength: 255, required: true },
   email: { type: String, unique: true, required: true },
   profile_picture: { type: String },
-  role: { type: String, enum: ['Admin', 'User'], default: 'User' },
+  role: { type: Number, default: 1 },
   phoneNumber: { type: String, maxlength: 20 }, // 
   created_quizzes: [{ type: Schema.Types.ObjectId, ref: 'Quiz' }]
 }, {
