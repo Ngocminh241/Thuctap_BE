@@ -35,7 +35,6 @@ const questionPackRouter = require('./questionpack/index');
 const quizRouter = require('./quiz/index');
 const resultRouter = require('./result/index');
 const userRouter = require('./user/index');
-const UserController = require('../controllers/UserController'); // Đảm bảo đường dẫn đúng
 
 // Khởi tạo router
 const router = express.Router();

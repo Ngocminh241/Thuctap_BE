@@ -21,16 +21,13 @@ const fetchAPI_Page = async (currentPage) => {
         const html = data.data.users.map(items => `
             <tr>
                 <td>
-                    <p style="width: 70px; color: red; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">${items._id}</p>
-                </td>
-                <td>
                     <img style="width:30px;height:30px;object-fit:cover" src="${items.profile_picture}" alt="Avatar"/>
                 </td>
                 <td>${items.username}</td>
                 <td>${items.role === 1 ? 'User' : 'Admin'}</td>
-                <td>${items.email}</td>
+                <td >${items.email}</td>
                 <td>${items.phoneNumber}</td>
-                <td style="gap: 20px; font-size: 20px" class="d-flex justify-content-end">
+                <td style="gap: 20px; font-size: 20px">
                     <i onclick="BtnChiTiet('${items._id}','${items.profile_picture}','${items.username}','${items.email}','${items.phoneNumber}')" class="bi bi-eye"></i>
                     <i onclick="BtnSua('${items._id}')" class="bi bi-pen"></i>
                     <i onclick="BtnXoa('${items._id}')" class="bi bi-trash3"></i>

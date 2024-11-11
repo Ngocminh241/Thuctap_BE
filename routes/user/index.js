@@ -9,7 +9,7 @@ router.post('/login', userController.postLogin);
 router.post('/register', Upload.single('profile_picture'), userController.postRegister);
 router.get('/get-user-by-page', userController.getUserByPage);
 router.get('/get-user-by-id/:id', userController.getUserByID);
-router.get('/get-user', userController.getAllUser);
+router.get('/get-all-user', userController.getAllUser);
 router.delete('/delete-user/:id', userController.deleteUser);
 router.put('/change-password/:id', userController.changePassword);
 router.put('/update-info/:id', userController.updateUserInfo);

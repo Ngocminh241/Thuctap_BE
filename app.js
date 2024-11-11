@@ -9,7 +9,7 @@ const session = require('express-session');
 const bodyParser = require('body-parser');
 
 var indexRouter = require('./routes/index');
-var userRouter = require('./routes/user/index');
+// var userRouter = require('./routes/user/index');
 
 const database = require('./config/db');
 
@@ -39,7 +39,7 @@ app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
 app.use('/', indexRouter);
-app.use('/api', userRouter);
+// app.use('/api', userRouter);
 
 app.use(session({
   secret: 'KIDLEARN',
@@ -87,7 +87,7 @@ app.post('/api/v1/user/register', upload.single('profile_picture'), async (req, 
   }
 });
 
-app.post('/api/v1/user/login', (req, res) => {
+app.post('/api/v1/login', (req, res) => {
   const { email, password } = req.body;
   // Xử lý đăng nhập ở đây
   res.json({ status: 200, message: 'Đăng nhập thành công!' });

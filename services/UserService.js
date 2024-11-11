@@ -8,30 +8,18 @@ class UserService {
        login = async (email, password) => {
         try {
             // Tìm người dùng theo email
-            const user = await User.findOne({ email });
-    
-            if (user) {
-                // So sánh mật khẩu đã mã hóa
-                const match = await bcrypt.compare(password, user.password);
-    
-                if (match) {
-                    const token = JWT.sign({ id: user._id }, SECRETKEY, { expiresIn: '1h' });
-                    const refreshToken = JWT.sign({ id: user._id }, SECRETKEY, { expiresIn: '1d' });
-    
-                    return {
-                        status: 200,
-                        message: "Đăng nhập thành công",
-                        data: user,
-                        token: token,
-                        refreshToken: refreshToken
-                    };
-                } else {
-                    return {
-                        status: 400,
-                        message: "Lỗi, đăng nhập không thành công",
-                        data: []
-                    };
-                }
+            const user = await User.findOne({ email, password });
+            if (user) {    
+                const token = JWT.sign({ id: user._id }, SECRETKEY, { expiresIn: '1h' });
+                const refreshToken = JWT.sign({ id: user._id }, SECRETKEY, { expiresIn: '1d' });
+                return {
+                    status: 200,
+                    message: "Đăng nhập thành công",
+                    data: user,
+                    token: token,
+                    refreshToken: refreshToken
+                };
+                
             } else {
                 return {
                     status: 400,
@@ -67,7 +55,6 @@ class UserService {
             if (!file) {
                 urlsImage = "default_image_url"; // Thay thế bằng đường dẫn ảnh mặc định
             }
-
             const existingUser = await User.findOne({ phoneNumber: phoneNumber });
             if (existingUser) {
                 return {
@@ -76,12 +63,10 @@ class UserService {
                     data: []
                 };
             }
-
-            const hashedPassword = await bcrypt.hash(password, 10); // Mã hóa mật khẩu
             const newUser = new User({
                 username,
                 email,
-                password: hashedPassword,
+                password: password,
                 phoneNumber,
                 role: roles,
                 profile_picture: urlsImage

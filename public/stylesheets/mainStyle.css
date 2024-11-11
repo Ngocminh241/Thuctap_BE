@@ -29,7 +29,7 @@ header {
     justify-content: space-between;
 }
 header .row {
-    width: 20%;
+    width: 21%;
     height: 100%;
     background-color: #404E67;
     display: flex;
@@ -60,7 +60,6 @@ aside {
     height: 100%;
     padding-top: 5%;
     background-color: #404E67;
-    margin-left: -1%;
 }
 
 .list-group-item {

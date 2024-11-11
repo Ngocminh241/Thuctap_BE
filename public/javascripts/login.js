@@ -1,25 +1,25 @@
 const loginForm = document.getElementById('loginForm');
-const url = `http://localhost:3000/api/v1/user/login`;
+const email = document.getElementById('email');
+const password = document.getElementById('password');
+const url = `http://localhost:3000/api/v1/user`;
 
 const loginUser = async () => {
     try {
         const formData = new FormData(loginForm);
-        const email = formData.get('email');
-        const password = formData.get('password');
-
+        // const email = formData.get('email');
+        // const password = formData.get('password');
         if (!email || !password) {
             alert('Email và mật khẩu không thể trống');
             return;
         }
-
+        console.log("email: " + formData.get("email") + "\n" + "pass: " + formData.get("password"));
         console.log('Sending data:', { email, password });
-
-        const response = await fetch(url, {
+        const response = await fetch(`${url}/login`, {
             method: "POST",
             headers: {
-                'Content-Type': 'application/json'
+               'Content-Type': 'application/x-www-form-urlencoded'
             },
-            body: JSON.stringify({ email, password })
+            body: new URLSearchParams(formData).toString()
         });
 
         // Kiểm tra mã trạng thái HTTP
@@ -43,7 +43,7 @@ const loginUser = async () => {
         }
     } catch (error) {
         console.error('Error:', error);
-        alert('Có lỗi xảy ra. Vui lòng thử lại sau.');
+        alert('Có lỗi xảy ra. Vui lòng xem lại email hoặc mật khẩu.');
     }
 };
 
