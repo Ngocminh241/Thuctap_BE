@@ -3,7 +3,9 @@ const Schema = mongoose.Schema;
 
 const difficultyLevelSchema = new Schema({
   level_name: { type: String, required: true },
-  description: { type: String }
+  description: { type: String },
+  createdAt: { type: Date, default: Date.now },
+  updatedAt: { type: Date, default: Date.now }
 }, {
   timestamps: true
 });

@@ -78,7 +78,7 @@ router.get("/choice", function(req, res, next) {
 router.get("/difficultylevel", function(req, res, next) {
   const content = renderPartial('difficultylevel');
   res.render('main', { 
-      title: 'Difficulty Level',
+      title: 'Quản lý cấp độ',
       body: content,
   });
 });
@@ -94,7 +94,7 @@ router.get("/question", function(req, res, next) {
 router.get("/questionpack", function(req, res, next) {
   const content = renderPartial('questionpack');
   res.render('main', { 
-      title: 'Question Pack',
+      title: 'Quản lý gói câu hỏi',
       body: content,
   });
 });
@@ -118,7 +118,7 @@ router.get("/result", function(req, res, next) {
 router.get("/user", function(req, res, next) {
   const content = renderPartial('user');
   res.render('main', { 
-      title: 'User',
+      title: 'Quản lý người dùng',
       body: content,
   });
 });
